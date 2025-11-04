@@ -1,24 +1,38 @@
-# Yoga Booking System
+# 🧘 Yoga Booking System
 
-Sistema de agendamento de aulas de yoga construído com Next.js, Prisma, NextAuth e Stripe.
+Sistema de agendamento de aulas de yoga construído com Next.js, Prisma, NextAuth e **pagamentos simulados**.
+
+> 🎓 **Projeto educacional/fictício** - Perfeito para aprendizado! Todos os pagamentos são simulados, nenhuma transação real é processada.
 
 ## 🚀 Funcionalidades
 
 - ✅ Autenticação de usuários (Credentials + Google OAuth)
 - ✅ Agendamento de aulas
 - ✅ Sistema de passes (Drop-in, Pacote de 5, Ilimitado Mensal)
-- ✅ Integração com Stripe para pagamentos
+- ✅ **Sistema de pagamento simulado (mock)** - Sem necessidade de Stripe!
 - ✅ Painel administrativo para gerenciamento de sessões
 - ✅ Sistema de instrutores e tipos de aula
 - ✅ Lista de espera automática
 
+## 💳 Sobre os Pagamentos
+
+Este projeto utiliza um **sistema de pagamento completamente simulado**:
+- ✨ Nenhum cartão real é cobrado
+- ✨ Não precisa configurar Stripe, PayPal ou qualquer gateway
+- ✨ Fluxo completo de checkout é simulado
+- ✨ Perfeito para demonstração e aprendizado
+- ✨ Pode ser facilmente substituído por Stripe real no futuro
+
 ## 📋 Pré-requisitos
 
+### Obrigatórios
 - Node.js 20+
 - PostgreSQL 14+
-- Conta Stripe (para pagamentos)
-- Conta Google Cloud (opcional, para OAuth)
-- Conta Resend (opcional, para emails)
+
+### Opcional (recursos avançados)
+- Conta Google Cloud (para OAuth)
+- Conta Resend (para emails)
+- Conta Stripe (apenas se quiser pagamentos reais no futuro)
 
 ## 🛠️ Configuração do Projeto
 
@@ -55,19 +69,6 @@ DATABASE_URL="postgresql://user:password@localhost:5432/yoga_booking"
 # Gere um secret com: openssl rand -base64 32
 NEXTAUTH_SECRET="seu-secret-aqui"
 NEXTAUTH_URL="http://localhost:3000"
-```
-
-#### Stripe (obrigatório)
-1. Crie uma conta em https://stripe.com
-2. Acesse https://dashboard.stripe.com/apikeys
-3. Copie suas chaves de teste
-4. Crie um produto e preço em https://dashboard.stripe.com/products
-5. Configure o webhook em https://dashboard.stripe.com/webhooks
-
-```env
-STRIPE_SECRET_KEY="sk_test_..."
-STRIPE_WEBHOOK_SECRET="whsec_..."
-STRIPE_PRICE_DROPIN="price_..."
 ```
 
 #### Google OAuth (opcional)
@@ -154,20 +155,30 @@ npm run test
 
 ## 📝 Notas Importantes
 
-### Webhook do Stripe
+### Sistema de Pagamento Simulado
 
-Para testar webhooks localmente, use o Stripe CLI:
+O projeto usa um sistema de pagamento mock em `lib/mock-payment.ts`:
 
-```bash
-# Instale o Stripe CLI
-brew install stripe/stripe-cli/stripe
+- **Interface realista**: Página de checkout completa com campos de cartão
+- **Processamento simulado**: Delay de 1-2 segundos para simular processamento real
+- **Taxa de sucesso**: 95% de sucesso, 5% de falha (para simular cenários reais)
+- **Dados de teste**: Use qualquer número de cartão, os valores pré-preenchidos funcionam
+- **Histórico**: Pagamentos são salvos no banco de dados normalmente
 
-# Faça login
-stripe login
+#### Fluxo de pagamento:
+1. Usuário seleciona aula → cria Booking (status: PENDING)
+2. Clica em "Proceed to payment" → redireciona para `/booking/mock-checkout`
+3. Preenche dados (mock) → clica em "Pagar"
+4. Sistema simula processamento → Booking atualizado (status: CONFIRMED)
+5. Pagamento registrado no banco → Redireciona para `/account`
 
-# Encaminhe webhooks para localhost
-stripe listen --forward-to localhost:3000/api/webhooks/stripe
-```
+#### Como migrar para Stripe real (futuro):
+
+Se quiser usar pagamentos reais:
+1. Descomente variáveis no `.env`: `STRIPE_SECRET_KEY`, etc
+2. Substitua imports de `mock-payment` por `stripe`
+3. Atualize `/app/booking/checkout/route.ts` para usar `getStripe()`
+4. Configure webhook em `/app/api/webhooks/stripe/route.ts`
 
 ### Prisma
 

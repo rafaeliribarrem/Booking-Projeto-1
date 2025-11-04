@@ -1,5 +1,5 @@
-import { getStripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import { createMockCheckoutSession } from "@/lib/mock-payment";
 
 export async function POST(req: Request) {
   const { bookingId } = await req.json();
@@ -11,23 +11,14 @@ export async function POST(req: Request) {
   });
   if (!booking) return new Response("Booking not found", { status: 404 });
 
-  const priceId = process.env.STRIPE_PRICE_DROPIN;
-  if (!priceId)
-    return new Response("Stripe price not configured", { status: 500 });
-
-  const stripe = await getStripe();
-  const session = await stripe.checkout.sessions.create({
-    mode: "payment",
-    line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${process.env.NEXTAUTH_URL}/account?paid=1`,
-    cancel_url: `${process.env.NEXTAUTH_URL}/class/${booking.classSessionId}?canceled=1`,
-    metadata: { bookingId: booking.id },
-    customer_email: booking.user?.email ?? undefined,
+  // Cria uma sessão de checkout simulada
+  const session = createMockCheckoutSession({
+    bookingId: booking.id,
+    priceType: "DROPIN", // Sempre drop-in por enquanto
+    userId: booking.userId,
+    successUrl: `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/account?paid=1`,
+    cancelUrl: `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/class/${booking.classSessionId}?canceled=1`,
   });
-
-  if (!session.url) {
-    return new Response("Failed to create checkout session", { status: 500 });
-  }
 
   return Response.json({ url: session.url });
 }
