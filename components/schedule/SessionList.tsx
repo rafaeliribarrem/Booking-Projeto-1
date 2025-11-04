@@ -1,9 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { SessionCard } from "./SessionCard";
 import {
   Select,
   SelectContent,
@@ -19,8 +17,14 @@ type Session = {
   capacity: number;
   location?: string | null;
   bookings: { id: string }[];
-  classType: { id: string; name: string };
-  instructor: { id: string; name: string };
+  classType: {
+    id: string;
+    name: string;
+    description: string | null;
+    durationMinutes: number;
+    difficulty: string | null;
+  };
+  instructor: { id: string; name: string; imageUrl: string | null };
 };
 
 type Props = {
@@ -76,65 +80,22 @@ export function SessionList({ sessions, instructors, styles }: Props) {
           </SelectContent>
         </Select>
       </div>
-      <div className="lg:col-span-3 space-y-4">
-        {sessions.map((s) => {
-          const starts = new Date(s.startsAt);
-          const ends = new Date(s.endsAt);
-          const remaining = s.capacity - s.bookings.length;
-          return (
-            <Card key={s.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="flex flex-col sm:flex-row">
-                <div className="bg-gradient-to-br from-primary/10 to-accent/10 p-6 sm:w-32 flex flex-col items-center justify-center text-center">
-                  <div className="text-sm font-medium text-muted-foreground">
-                    {starts.toLocaleDateString([], { weekday: "short" })}
-                  </div>
-                  <div className="text-3xl font-bold text-primary mt-1">
-                    {starts.getDate()}
-                  </div>
-                  <div className="text-sm text-muted-foreground mt-1">
-                    {starts.toLocaleDateString([], { month: "short" })}
-                  </div>
-                </div>
-                <div className="flex-1 p-6">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-foreground mb-2">
-                        {s.classType.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        with {s.instructor.name}
-                      </p>
-                      <div className="flex flex-wrap gap-4 text-sm">
-                        <div className="flex items-center gap-1">
-                          <span className="font-medium">
-                            {starts.toLocaleTimeString([], { timeStyle: "short" })}
-                          </span>
-                          <span className="text-muted-foreground">-</span>
-                          <span className="font-medium">
-                            {ends.toLocaleTimeString([], { timeStyle: "short" })}
-                          </span>
-                        </div>
-                        {s.location && (
-                          <div className="text-muted-foreground">
-                            {s.location}
-                          </div>
-                        )}
-                        <div className={remaining > 3 ? "text-muted-foreground" : "text-accent font-medium"}>
-                          {remaining} {remaining === 1 ? "spot" : "spots"} left
-                        </div>
-                      </div>
-                    </div>
-                    <Button asChild className="shrink-0">
-                      <Link href={`/booking/start?sessionId=${s.id}`}>
-                        Book Now
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          );
+      <div className="lg:col-span-3 grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+        {sessions.map((s, index) => {
+          const sessionWithDates = {
+            ...s,
+            startsAt: new Date(s.startsAt),
+            endsAt: new Date(s.endsAt),
+          };
+          return <SessionCard key={s.id} session={sessionWithDates} index={index} />;
         })}
+
+        {sessions.length === 0 && (
+          <div className="col-span-full text-center py-12">
+            <p className="text-muted-foreground text-lg">No classes found matching your filters.</p>
+            <p className="text-sm text-muted-foreground mt-2">Try adjusting your filters or check back later.</p>
+          </div>
+        )}
       </div>
     </div>
   );

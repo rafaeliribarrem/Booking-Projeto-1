@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "/Users/rafael/Documents/Coding Projects/Personal/Booking System/yoga-booking/lib/generated/prisma",
+      "value": "/Users/rafael/Documents/Coding Projects/Personal/Booking System/Booking-Projeto-1/lib/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -36,7 +36,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/rafael/Documents/Coding Projects/Personal/Booking System/yoga-booking/prisma/schema.prisma",
+    "sourceFilePath": "/Users/rafael/Documents/Coding Projects/Personal/Booking System/Booking-Projeto-1/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
@@ -46,6 +46,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

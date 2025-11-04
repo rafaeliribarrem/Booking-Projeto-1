@@ -11,6 +11,16 @@ export async function POST(req: Request) {
   });
   if (!booking) return new Response("Booking not found", { status: 404 });
 
+  // Mock checkout for development/study purposes
+  const useMockCheckout = !process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === "sk_test_...";
+
+  if (useMockCheckout) {
+    // Simulate payment processing - no real Stripe integration
+    const mockCheckoutUrl = `${process.env.NEXTAUTH_URL}/booking/mock-checkout?bookingId=${booking.id}`;
+    return Response.json({ url: mockCheckoutUrl });
+  }
+
+  // Real Stripe integration (only if properly configured)
   const priceId = process.env.STRIPE_PRICE_DROPIN;
   if (!priceId)
     return new Response("Stripe price not configured", { status: 500 });
