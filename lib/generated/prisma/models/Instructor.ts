@@ -26,8 +26,12 @@ export type AggregateInstructor = {
 export type InstructorMinAggregateOutputType = {
   id: string | null
   name: string | null
+  email: string | null
+  phone: string | null
   bio: string | null
+  credentials: string | null
   imageUrl: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -35,8 +39,12 @@ export type InstructorMinAggregateOutputType = {
 export type InstructorMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  email: string | null
+  phone: string | null
   bio: string | null
+  credentials: string | null
   imageUrl: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -44,8 +52,12 @@ export type InstructorMaxAggregateOutputType = {
 export type InstructorCountAggregateOutputType = {
   id: number
   name: number
+  email: number
+  phone: number
   bio: number
+  credentials: number
   imageUrl: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -55,8 +67,12 @@ export type InstructorCountAggregateOutputType = {
 export type InstructorMinAggregateInputType = {
   id?: true
   name?: true
+  email?: true
+  phone?: true
   bio?: true
+  credentials?: true
   imageUrl?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -64,8 +80,12 @@ export type InstructorMinAggregateInputType = {
 export type InstructorMaxAggregateInputType = {
   id?: true
   name?: true
+  email?: true
+  phone?: true
   bio?: true
+  credentials?: true
   imageUrl?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -73,8 +93,12 @@ export type InstructorMaxAggregateInputType = {
 export type InstructorCountAggregateInputType = {
   id?: true
   name?: true
+  email?: true
+  phone?: true
   bio?: true
+  credentials?: true
   imageUrl?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -155,8 +179,12 @@ export type InstructorGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type InstructorGroupByOutputType = {
   id: string
   name: string
+  email: string | null
+  phone: string | null
   bio: string | null
+  credentials: string | null
   imageUrl: string | null
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: InstructorCountAggregateOutputType | null
@@ -185,8 +213,12 @@ export type InstructorWhereInput = {
   NOT?: Prisma.InstructorWhereInput | Prisma.InstructorWhereInput[]
   id?: Prisma.StringFilter<"Instructor"> | string
   name?: Prisma.StringFilter<"Instructor"> | string
+  email?: Prisma.StringNullableFilter<"Instructor"> | string | null
+  phone?: Prisma.StringNullableFilter<"Instructor"> | string | null
   bio?: Prisma.StringNullableFilter<"Instructor"> | string | null
+  credentials?: Prisma.StringNullableFilter<"Instructor"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Instructor"> | string | null
+  isActive?: Prisma.BoolFilter<"Instructor"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Instructor"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Instructor"> | Date | string
   sessions?: Prisma.ClassSessionListRelationFilter
@@ -195,8 +227,12 @@ export type InstructorWhereInput = {
 export type InstructorOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  credentials?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.ClassSessionOrderByRelationAggregateInput
@@ -208,8 +244,12 @@ export type InstructorWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.InstructorWhereInput[]
   NOT?: Prisma.InstructorWhereInput | Prisma.InstructorWhereInput[]
   name?: Prisma.StringFilter<"Instructor"> | string
+  email?: Prisma.StringNullableFilter<"Instructor"> | string | null
+  phone?: Prisma.StringNullableFilter<"Instructor"> | string | null
   bio?: Prisma.StringNullableFilter<"Instructor"> | string | null
+  credentials?: Prisma.StringNullableFilter<"Instructor"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Instructor"> | string | null
+  isActive?: Prisma.BoolFilter<"Instructor"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Instructor"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Instructor"> | Date | string
   sessions?: Prisma.ClassSessionListRelationFilter
@@ -218,8 +258,12 @@ export type InstructorWhereUniqueInput = Prisma.AtLeast<{
 export type InstructorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  credentials?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.InstructorCountOrderByAggregateInput
@@ -233,8 +277,12 @@ export type InstructorScalarWhereWithAggregatesInput = {
   NOT?: Prisma.InstructorScalarWhereWithAggregatesInput | Prisma.InstructorScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Instructor"> | string
   name?: Prisma.StringWithAggregatesFilter<"Instructor"> | string
+  email?: Prisma.StringNullableWithAggregatesFilter<"Instructor"> | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"Instructor"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"Instructor"> | string | null
+  credentials?: Prisma.StringNullableWithAggregatesFilter<"Instructor"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Instructor"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"Instructor"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Instructor"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Instructor"> | Date | string
 }
@@ -242,8 +290,12 @@ export type InstructorScalarWhereWithAggregatesInput = {
 export type InstructorCreateInput = {
   id?: string
   name: string
+  email?: string | null
+  phone?: string | null
   bio?: string | null
+  credentials?: string | null
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.ClassSessionCreateNestedManyWithoutInstructorInput
@@ -252,8 +304,12 @@ export type InstructorCreateInput = {
 export type InstructorUncheckedCreateInput = {
   id?: string
   name: string
+  email?: string | null
+  phone?: string | null
   bio?: string | null
+  credentials?: string | null
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.ClassSessionUncheckedCreateNestedManyWithoutInstructorInput
@@ -262,8 +318,12 @@ export type InstructorUncheckedCreateInput = {
 export type InstructorUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credentials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.ClassSessionUpdateManyWithoutInstructorNestedInput
@@ -272,8 +332,12 @@ export type InstructorUpdateInput = {
 export type InstructorUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credentials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.ClassSessionUncheckedUpdateManyWithoutInstructorNestedInput
@@ -282,8 +346,12 @@ export type InstructorUncheckedUpdateInput = {
 export type InstructorCreateManyInput = {
   id?: string
   name: string
+  email?: string | null
+  phone?: string | null
   bio?: string | null
+  credentials?: string | null
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -291,8 +359,12 @@ export type InstructorCreateManyInput = {
 export type InstructorUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credentials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -300,8 +372,12 @@ export type InstructorUpdateManyMutationInput = {
 export type InstructorUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credentials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -309,8 +385,12 @@ export type InstructorUncheckedUpdateManyInput = {
 export type InstructorCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  credentials?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -318,8 +398,12 @@ export type InstructorCountOrderByAggregateInput = {
 export type InstructorMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  credentials?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -327,8 +411,12 @@ export type InstructorMaxOrderByAggregateInput = {
 export type InstructorMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  credentials?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -336,6 +424,10 @@ export type InstructorMinOrderByAggregateInput = {
 export type InstructorScalarRelationFilter = {
   is?: Prisma.InstructorWhereInput
   isNot?: Prisma.InstructorWhereInput
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type InstructorCreateNestedOneWithoutSessionsInput = {
@@ -355,8 +447,12 @@ export type InstructorUpdateOneRequiredWithoutSessionsNestedInput = {
 export type InstructorCreateWithoutSessionsInput = {
   id?: string
   name: string
+  email?: string | null
+  phone?: string | null
   bio?: string | null
+  credentials?: string | null
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -364,8 +460,12 @@ export type InstructorCreateWithoutSessionsInput = {
 export type InstructorUncheckedCreateWithoutSessionsInput = {
   id?: string
   name: string
+  email?: string | null
+  phone?: string | null
   bio?: string | null
+  credentials?: string | null
   imageUrl?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -389,8 +489,12 @@ export type InstructorUpdateToOneWithWhereWithoutSessionsInput = {
 export type InstructorUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credentials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -398,8 +502,12 @@ export type InstructorUpdateWithoutSessionsInput = {
 export type InstructorUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credentials?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -438,8 +546,12 @@ export type InstructorCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.T
 export type InstructorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  email?: boolean
+  phone?: boolean
   bio?: boolean
+  credentials?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   sessions?: boolean | Prisma.Instructor$sessionsArgs<ExtArgs>
@@ -449,8 +561,12 @@ export type InstructorSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
 export type InstructorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  email?: boolean
+  phone?: boolean
   bio?: boolean
+  credentials?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["instructor"]>
@@ -458,8 +574,12 @@ export type InstructorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type InstructorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  email?: boolean
+  phone?: boolean
   bio?: boolean
+  credentials?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["instructor"]>
@@ -467,13 +587,17 @@ export type InstructorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
 export type InstructorSelectScalar = {
   id?: boolean
   name?: boolean
+  email?: boolean
+  phone?: boolean
   bio?: boolean
+  credentials?: boolean
   imageUrl?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type InstructorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "bio" | "imageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["instructor"]>
+export type InstructorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "bio" | "credentials" | "imageUrl" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["instructor"]>
 export type InstructorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.Instructor$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.InstructorCountOutputTypeDefaultArgs<ExtArgs>
@@ -489,8 +613,12 @@ export type $InstructorPayload<ExtArgs extends runtime.Types.Extensions.Internal
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    email: string | null
+    phone: string | null
     bio: string | null
+    credentials: string | null
     imageUrl: string | null
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["instructor"]>
@@ -919,8 +1047,12 @@ export interface Prisma__InstructorClient<T, Null = never, ExtArgs extends runti
 export interface InstructorFieldRefs {
   readonly id: Prisma.FieldRef<"Instructor", 'String'>
   readonly name: Prisma.FieldRef<"Instructor", 'String'>
+  readonly email: Prisma.FieldRef<"Instructor", 'String'>
+  readonly phone: Prisma.FieldRef<"Instructor", 'String'>
   readonly bio: Prisma.FieldRef<"Instructor", 'String'>
+  readonly credentials: Prisma.FieldRef<"Instructor", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Instructor", 'String'>
+  readonly isActive: Prisma.FieldRef<"Instructor", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"Instructor", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Instructor", 'DateTime'>
 }

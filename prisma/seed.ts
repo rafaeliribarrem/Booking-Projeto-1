@@ -9,13 +9,38 @@ async function main() {
       create: {
         id: "seed-alex",
         name: "Alex Rivera",
-        bio: "Vinyasa & Power Yoga",
+        email: "alex@serenityyoga.com",
+        phone: "+1 (555) 123-4567",
+        bio: "Alex specializes in Vinyasa and Power Yoga with over 10 years of teaching experience. Her dynamic classes help students build strength and flexibility.",
+        credentials: "RYT-500, E-RYT 200",
+        isActive: true,
       },
     }),
     prisma.instructor.upsert({
       where: { id: "seed-mei" },
       update: {},
-      create: { id: "seed-mei", name: "Mei Chen", bio: "Yin & Restorative" },
+      create: {
+        id: "seed-mei",
+        name: "Mei Chen",
+        email: "mei@serenityyoga.com",
+        phone: "+1 (555) 234-5678",
+        bio: "Mei brings a gentle approach to Yin and Restorative yoga, helping students find deep relaxation and inner peace. She has been teaching for 8 years.",
+        credentials: "RYT-200, Yin Yoga Certified",
+        isActive: true,
+      },
+    }),
+    prisma.instructor.upsert({
+      where: { id: "seed-sarah" },
+      update: {},
+      create: {
+        id: "seed-sarah",
+        name: "Sarah Johnson",
+        email: "sarah@serenityyoga.com",
+        phone: "+1 (555) 345-6789",
+        bio: "Sarah teaches Hatha and beginner-friendly classes, making yoga accessible to everyone. Her patient teaching style is perfect for those new to yoga.",
+        credentials: "RYT-200",
+        isActive: true,
+      },
     }),
   ]);
 
@@ -29,7 +54,8 @@ async function main() {
       description: "Dynamic flow linking breath with movement.",
       durationMinutes: 60,
       defaultCapacity: 16,
-      difficulty: "All Levels",
+      difficulty: "Intermediate",
+      isActive: true,
     },
   });
   const yin = await prisma.classType.upsert({
@@ -41,7 +67,34 @@ async function main() {
       description: "Slow, meditative practice with deep stretches.",
       durationMinutes: 60,
       defaultCapacity: 14,
-      difficulty: "All Levels",
+      difficulty: "Beginner",
+      isActive: true,
+    },
+  });
+  const hatha = await prisma.classType.upsert({
+    where: { id: "seed-hatha" },
+    update: {},
+    create: {
+      id: "seed-hatha",
+      name: "Hatha Yoga",
+      description: "Traditional yoga focusing on physical postures and breathing techniques.",
+      durationMinutes: 75,
+      defaultCapacity: 12,
+      difficulty: "Beginner",
+      isActive: true,
+    },
+  });
+  const power = await prisma.classType.upsert({
+    where: { id: "seed-power" },
+    update: {},
+    create: {
+      id: "seed-power",
+      name: "Power Yoga",
+      description: "Vigorous, fitness-based approach to vinyasa-style yoga.",
+      durationMinutes: 60,
+      defaultCapacity: 16,
+      difficulty: "Advanced",
+      isActive: true,
     },
   });
 

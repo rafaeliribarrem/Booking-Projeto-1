@@ -1,177 +1,152 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Users, MapPin } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { Card, CardImage } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ClassTypeImageVariants } from "@/components/ui/class-type-image";
+import { InstructorAvatarVariants } from "@/components/ui/instructor-avatar";
+import { Calendar, Clock, Users } from "lucide-react";
 
 interface SessionCardProps {
   session: {
     id: string;
-    startsAt: Date;
-    endsAt: Date;
-    capacity: number;
-    location: string | null;
     classType: {
       name: string;
-      description: string | null;
-      durationMinutes: number;
-      difficulty: string | null;
+      image?: string;
     };
     instructor: {
       name: string;
-      imageUrl: string | null;
+      avatar?: string;
     };
-    bookings: Array<{ id: string }>;
+    startsAt: Date;
+    duration: number;
+    capacity: number;
+    bookedCount: number;
   };
-  index?: number;
 }
 
-export function SessionCard({ session, index = 0 }: SessionCardProps) {
-  const spotsLeft = session.capacity - session.bookings.length;
-  const isAlmostFull = spotsLeft <= 3;
-  const isFull = spotsLeft === 0;
+export function SessionCard({ session }: SessionCardProps) {
+  const isFull = session.bookedCount >= session.capacity;
+  const spotsLeft = session.capacity - session.bookedCount;
+  const capacityPercentage = (session.bookedCount / session.capacity) * 100;
 
-  const instructorInitials = session.instructor.name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase();
+  const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    }).format(date);
+  };
 
-  const difficultyClasses: Record<string, string> = {
-    Beginner: "bg-accent/20 text-accent-foreground",
-    Intermediate: "bg-secondary/40 text-secondary-foreground",
-    Advanced: "bg-primary/15 text-primary",
+  const formatTime = (date: Date) => {
+    return new Intl.DateTimeFormat("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(date);
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+    <Card
+      variant="elevated"
+      className="group hover:shadow-xl transition-all overflow-hidden h-full flex flex-col"
     >
-      <Card className="overflow-hidden border border-primary/20 transition-all duration-300 hover:border-primary/30 hover:shadow-lg">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-secondary/30 via-background/90 to-accent/20" />
+      {/* Class Image */}
+      <CardImage className="relative h-48 w-full overflow-hidden">
+        <ClassTypeImageVariants.Card
+          classTypeName={session.classType.name}
+          image={session.classType.image}
+        />
+        {isFull && (
+          <div className="absolute top-3 right-3">
+            <Badge variant="error">Full</Badge>
+          </div>
+        )}
+      </CardImage>
 
-          <CardHeader className="relative">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <div className="mb-2 flex items-center gap-2">
-                  <CardTitle className="text-xl">{session.classType.name}</CardTitle>
-                  {session.classType.difficulty && (
-                    <Badge
-                      variant="secondary"
-                      className={cn(
-                        "border border-transparent",
-                        difficultyClasses[session.classType.difficulty] ??
-                          "bg-secondary/40 text-secondary-foreground"
-                      )}
-                    >
-                      {session.classType.difficulty}
-                    </Badge>
-                  )}
-                </div>
-                <CardDescription className="line-clamp-2">
-                  {session.classType.description || "Join us for an amazing yoga session"}
-                </CardDescription>
-              </div>
-
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Avatar className="h-14 w-14 border border-secondary/40 shadow-md">
-                  <AvatarImage
-                    src={session.instructor.imageUrl || undefined}
-                    alt={session.instructor.name}
-                  />
-                  <AvatarFallback className="bg-gradient-to-br from-primary via-primary/80 to-accent text-sm font-bold text-primary-foreground">
-                    {instructorInitials}
-                  </AvatarFallback>
-                </Avatar>
-              </motion.div>
-            </div>
-          </CardHeader>
-
-          <CardContent className="relative space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-2 text-sm text-foreground/80">
-                <Calendar className="h-4 w-4 text-primary" />
-                <span>
-                  {new Date(session.startsAt).toLocaleDateString([], {
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 text-sm text-foreground/80">
-                <Clock className="h-4 w-4 text-accent" />
-                <span>
-                  {new Date(session.startsAt).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-2 text-sm text-foreground/80">
-                <Users className="h-4 w-4 text-primary" />
-                <span>
-                  {spotsLeft} spot{spotsLeft !== 1 ? "s" : ""} left
-                </span>
-              </div>
-
-              {session.location && (
-                <div className="flex items-center gap-2 text-sm text-foreground/80">
-                  <MapPin className="h-4 w-4 text-accent" />
-                  <span className="truncate">{session.location}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between gap-3 border-t border-border/70 pt-2">
-              <div className="text-sm text-foreground/80">
-                with <span className="font-medium text-foreground">{session.instructor.name}</span>
-              </div>
-
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  asChild
-                  size="sm"
-                  disabled={isFull}
-                  variant={isFull ? "outline" : "default"}
-                  className={cn(
-                    "font-semibold",
-                    isFull
-                      ? "border-primary text-primary hover:bg-primary/10"
-                      : "bg-gradient-to-r from-primary via-primary/80 to-accent text-primary-foreground hover:from-primary/90 hover:to-accent/90"
-                  )}
-                >
-                  <Link href={`/booking/start?sessionId=${session.id}`}>
-                    {isFull ? "Full" : isAlmostFull ? "Book Now!" : "Book"}
-                  </Link>
-                </Button>
-              </motion.div>
-            </div>
-
-            {isAlmostFull && !isFull && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="absolute top-0 right-0"
-              >
-                <Badge variant="destructive" className="text-xs">
-                  Almost Full!
-                </Badge>
-              </motion.div>
-            )}
-          </CardContent>
+      {/* Content */}
+      <div className="px-6 flex-1 flex flex-col gap-4">
+        {/* Class Type */}
+        <div>
+          <h3 className="text-xl font-semibold text-sand-900 mb-1">
+            {session.classType.name}
+          </h3>
         </div>
-      </Card>
-    </motion.div>
+
+        {/* Instructor */}
+        <div className="flex items-center gap-3">
+          <InstructorAvatarVariants.Medium
+            instructorName={session.instructor.name}
+            image={session.instructor.avatar}
+          />
+          <div>
+            <p className="text-sm font-medium text-sand-900">
+              {session.instructor.name}
+            </p>
+            <p className="text-xs text-sand-700">Instructor</p>
+          </div>
+        </div>
+
+        {/* Session Details */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-sand-700">
+            <Calendar className="h-4 w-4" />
+            <span className="text-sm">{formatDate(session.startsAt)}</span>
+          </div>
+          <div className="flex items-center gap-2 text-sand-700">
+            <Clock className="h-4 w-4" />
+            <span className="text-sm">
+              {formatTime(session.startsAt)} • {session.duration} min
+            </span>
+          </div>
+        </div>
+
+        {/* Capacity Indicator */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center gap-2 text-sand-700">
+              <Users className="h-4 w-4" />
+              <span>
+                {session.bookedCount} / {session.capacity} spots
+              </span>
+            </div>
+            {!isFull && (
+              <span className="text-sage-600 font-medium">
+                {spotsLeft} left
+              </span>
+            )}
+          </div>
+          <div className="w-full h-2 bg-sand-200 rounded-full overflow-hidden">
+            <div
+              className={`h-full transition-all ${
+                capacityPercentage >= 90
+                  ? "bg-terracotta-500"
+                  : capacityPercentage >= 70
+                  ? "bg-clay-500"
+                  : "bg-sage-500"
+              }`}
+              style={{ width: `${capacityPercentage}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="mt-auto pt-2">
+          {isFull ? (
+            <Button variant="secondary" className="w-full" asChild>
+              <Link
+                href={`/booking/start?sessionId=${session.id}&waitlist=true`}
+              >
+                Join Waitlist
+              </Link>
+            </Button>
+          ) : (
+            <Button className="w-full" asChild>
+              <Link href={`/booking/start?sessionId=${session.id}`}>
+                Book Now
+              </Link>
+            </Button>
+          )}
+        </div>
+      </div>
+    </Card>
   );
 }

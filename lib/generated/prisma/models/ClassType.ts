@@ -42,6 +42,8 @@ export type ClassTypeMinAggregateOutputType = {
   durationMinutes: number | null
   defaultCapacity: number | null
   difficulty: string | null
+  image: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,6 +55,8 @@ export type ClassTypeMaxAggregateOutputType = {
   durationMinutes: number | null
   defaultCapacity: number | null
   difficulty: string | null
+  image: string | null
+  isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +68,8 @@ export type ClassTypeCountAggregateOutputType = {
   durationMinutes: number
   defaultCapacity: number
   difficulty: number
+  image: number
+  isActive: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -87,6 +93,8 @@ export type ClassTypeMinAggregateInputType = {
   durationMinutes?: true
   defaultCapacity?: true
   difficulty?: true
+  image?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -98,6 +106,8 @@ export type ClassTypeMaxAggregateInputType = {
   durationMinutes?: true
   defaultCapacity?: true
   difficulty?: true
+  image?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -109,6 +119,8 @@ export type ClassTypeCountAggregateInputType = {
   durationMinutes?: true
   defaultCapacity?: true
   difficulty?: true
+  image?: true
+  isActive?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -207,6 +219,8 @@ export type ClassTypeGroupByOutputType = {
   durationMinutes: number
   defaultCapacity: number
   difficulty: string | null
+  image: string | null
+  isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: ClassTypeCountAggregateOutputType | null
@@ -241,6 +255,8 @@ export type ClassTypeWhereInput = {
   durationMinutes?: Prisma.IntFilter<"ClassType"> | number
   defaultCapacity?: Prisma.IntFilter<"ClassType"> | number
   difficulty?: Prisma.StringNullableFilter<"ClassType"> | string | null
+  image?: Prisma.StringNullableFilter<"ClassType"> | string | null
+  isActive?: Prisma.BoolFilter<"ClassType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ClassType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ClassType"> | Date | string
   sessions?: Prisma.ClassSessionListRelationFilter
@@ -253,6 +269,8 @@ export type ClassTypeOrderByWithRelationInput = {
   durationMinutes?: Prisma.SortOrder
   defaultCapacity?: Prisma.SortOrder
   difficulty?: Prisma.SortOrderInput | Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   sessions?: Prisma.ClassSessionOrderByRelationAggregateInput
@@ -268,6 +286,8 @@ export type ClassTypeWhereUniqueInput = Prisma.AtLeast<{
   durationMinutes?: Prisma.IntFilter<"ClassType"> | number
   defaultCapacity?: Prisma.IntFilter<"ClassType"> | number
   difficulty?: Prisma.StringNullableFilter<"ClassType"> | string | null
+  image?: Prisma.StringNullableFilter<"ClassType"> | string | null
+  isActive?: Prisma.BoolFilter<"ClassType"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ClassType"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ClassType"> | Date | string
   sessions?: Prisma.ClassSessionListRelationFilter
@@ -280,6 +300,8 @@ export type ClassTypeOrderByWithAggregationInput = {
   durationMinutes?: Prisma.SortOrder
   defaultCapacity?: Prisma.SortOrder
   difficulty?: Prisma.SortOrderInput | Prisma.SortOrder
+  image?: Prisma.SortOrderInput | Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ClassTypeCountOrderByAggregateInput
@@ -299,6 +321,8 @@ export type ClassTypeScalarWhereWithAggregatesInput = {
   durationMinutes?: Prisma.IntWithAggregatesFilter<"ClassType"> | number
   defaultCapacity?: Prisma.IntWithAggregatesFilter<"ClassType"> | number
   difficulty?: Prisma.StringNullableWithAggregatesFilter<"ClassType"> | string | null
+  image?: Prisma.StringNullableWithAggregatesFilter<"ClassType"> | string | null
+  isActive?: Prisma.BoolWithAggregatesFilter<"ClassType"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ClassType"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ClassType"> | Date | string
 }
@@ -310,6 +334,8 @@ export type ClassTypeCreateInput = {
   durationMinutes?: number
   defaultCapacity?: number
   difficulty?: string | null
+  image?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.ClassSessionCreateNestedManyWithoutClassTypeInput
@@ -322,6 +348,8 @@ export type ClassTypeUncheckedCreateInput = {
   durationMinutes?: number
   defaultCapacity?: number
   difficulty?: string | null
+  image?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.ClassSessionUncheckedCreateNestedManyWithoutClassTypeInput
@@ -334,6 +362,8 @@ export type ClassTypeUpdateInput = {
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   defaultCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.ClassSessionUpdateManyWithoutClassTypeNestedInput
@@ -346,6 +376,8 @@ export type ClassTypeUncheckedUpdateInput = {
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   defaultCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.ClassSessionUncheckedUpdateManyWithoutClassTypeNestedInput
@@ -358,6 +390,8 @@ export type ClassTypeCreateManyInput = {
   durationMinutes?: number
   defaultCapacity?: number
   difficulty?: string | null
+  image?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -369,6 +403,8 @@ export type ClassTypeUpdateManyMutationInput = {
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   defaultCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -380,6 +416,8 @@ export type ClassTypeUncheckedUpdateManyInput = {
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   defaultCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -391,6 +429,8 @@ export type ClassTypeCountOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
   defaultCapacity?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -407,6 +447,8 @@ export type ClassTypeMaxOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
   defaultCapacity?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -418,6 +460,8 @@ export type ClassTypeMinOrderByAggregateInput = {
   durationMinutes?: Prisma.SortOrder
   defaultCapacity?: Prisma.SortOrder
   difficulty?: Prisma.SortOrder
+  image?: Prisma.SortOrder
+  isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -461,6 +505,8 @@ export type ClassTypeCreateWithoutSessionsInput = {
   durationMinutes?: number
   defaultCapacity?: number
   difficulty?: string | null
+  image?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -472,6 +518,8 @@ export type ClassTypeUncheckedCreateWithoutSessionsInput = {
   durationMinutes?: number
   defaultCapacity?: number
   difficulty?: string | null
+  image?: string | null
+  isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -499,6 +547,8 @@ export type ClassTypeUpdateWithoutSessionsInput = {
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   defaultCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -510,6 +560,8 @@ export type ClassTypeUncheckedUpdateWithoutSessionsInput = {
   durationMinutes?: Prisma.IntFieldUpdateOperationsInput | number
   defaultCapacity?: Prisma.IntFieldUpdateOperationsInput | number
   difficulty?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -552,6 +604,8 @@ export type ClassTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   durationMinutes?: boolean
   defaultCapacity?: boolean
   difficulty?: boolean
+  image?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   sessions?: boolean | Prisma.ClassType$sessionsArgs<ExtArgs>
@@ -565,6 +619,8 @@ export type ClassTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   durationMinutes?: boolean
   defaultCapacity?: boolean
   difficulty?: boolean
+  image?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["classType"]>
@@ -576,6 +632,8 @@ export type ClassTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   durationMinutes?: boolean
   defaultCapacity?: boolean
   difficulty?: boolean
+  image?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["classType"]>
@@ -587,11 +645,13 @@ export type ClassTypeSelectScalar = {
   durationMinutes?: boolean
   defaultCapacity?: boolean
   difficulty?: boolean
+  image?: boolean
+  isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ClassTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "durationMinutes" | "defaultCapacity" | "difficulty" | "createdAt" | "updatedAt", ExtArgs["result"]["classType"]>
+export type ClassTypeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "durationMinutes" | "defaultCapacity" | "difficulty" | "image" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["classType"]>
 export type ClassTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sessions?: boolean | Prisma.ClassType$sessionsArgs<ExtArgs>
   _count?: boolean | Prisma.ClassTypeCountOutputTypeDefaultArgs<ExtArgs>
@@ -611,6 +671,8 @@ export type $ClassTypePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     durationMinutes: number
     defaultCapacity: number
     difficulty: string | null
+    image: string | null
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["classType"]>
@@ -1043,6 +1105,8 @@ export interface ClassTypeFieldRefs {
   readonly durationMinutes: Prisma.FieldRef<"ClassType", 'Int'>
   readonly defaultCapacity: Prisma.FieldRef<"ClassType", 'Int'>
   readonly difficulty: Prisma.FieldRef<"ClassType", 'String'>
+  readonly image: Prisma.FieldRef<"ClassType", 'String'>
+  readonly isActive: Prisma.FieldRef<"ClassType", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ClassType", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ClassType", 'DateTime'>
 }

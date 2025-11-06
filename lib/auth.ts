@@ -1,11 +1,12 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 
-export const authOptions: NextAuthOptions = {
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  adapter: PrismaAdapter(prisma),
   session: {
     strategy: "jwt",
   },
@@ -19,15 +20,15 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email: credentials.email as string },
         });
         if (!user?.passwordHash) return null;
         const valid = await bcrypt.compare(
-          credentials.password,
+          credentials.password as string,
           user.passwordHash
         );
         return valid
-          ? { id: user.id, name: user.name ?? null, email: user.email ?? null }
+          ? { id: user.id, name: user.name ?? null, email: user.email ?? null, role: user.role }
           : null;
       },
     }),
@@ -37,15 +38,27 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, trigger }) => {
       if (user) {
         token.id = user.id;
+        token.role = user.role;
+      }
+      // Refresh role from database on update trigger
+      if (trigger === "update" && token.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { role: true },
+        });
+        if (dbUser) {
+          token.role = dbUser.role;
+        }
       }
       return token;
     },
     session: async ({ session, token }) => {
       if (session.user) {
-        (session.user as any).id = token.id;
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
       }
       return session;
     },
@@ -53,14 +66,4 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
   },
-  secret: process.env.NEXTAUTH_SECRET,
-};
-
-const handler = NextAuth(authOptions);
-export default handler;
-
-// Helper for getting session in server components
-import { getServerSession } from "next-auth";
-export async function auth() {
-  return await getServerSession(authOptions);
-}
+});

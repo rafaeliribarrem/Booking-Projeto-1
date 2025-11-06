@@ -83,6 +83,7 @@ export const UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   passwordHash: 'passwordHash',
+  role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -130,8 +131,12 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 export const InstructorScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  email: 'email',
+  phone: 'phone',
   bio: 'bio',
+  credentials: 'credentials',
   imageUrl: 'imageUrl',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -146,6 +151,8 @@ export const ClassTypeScalarFieldEnum = {
   durationMinutes: 'durationMinutes',
   defaultCapacity: 'defaultCapacity',
   difficulty: 'difficulty',
+  image: 'image',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

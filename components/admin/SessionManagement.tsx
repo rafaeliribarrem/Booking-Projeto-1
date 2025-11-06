@@ -4,30 +4,40 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
-
-type Session = {
-  id: string;
-  startsAt: Date;
-  endsAt: Date;
-  capacity: number;
-  location?: string | null;
-  classType: { id: string; name: string };
-  instructor: { id: string; name: string };
-  bookings: { id: string }[];
-};
+import {
+  CalendarSession,
+  AdminInstructor,
+  AdminClassType,
+} from "@/lib/types/admin";
 
 type Props = {
-  sessions: Session[];
-  instructors: { id: string; name: string }[];
-  classTypes: { id: string; name: string }[];
+  sessions: CalendarSession[];
+  instructors: AdminInstructor[];
+  classTypes: AdminClassType[];
 };
 
-export function SessionManagement({ sessions, instructors, classTypes }: Props) {
+export function SessionManagement({
+  sessions,
+  instructors,
+  classTypes,
+}: Props) {
   const router = useRouter();
   const [isCreating, setIsCreating] = useState(false);
   const [open, setOpen] = useState(false);
@@ -36,7 +46,6 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
     classTypeId: "",
     instructorId: "",
     startsAt: "",
-    duration: "60",
     capacity: "12",
     location: "",
   });
@@ -44,8 +53,18 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
   async function handleCreate() {
     setIsCreating(true);
     try {
+      // Get the selected class type to determine duration
+      const classType = classTypes.find((ct) => ct.id === formData.classTypeId);
+      if (!classType) {
+        toast.error("Please select a class type");
+        setIsCreating(false);
+        return;
+      }
+
       const startsAt = new Date(formData.startsAt);
-      const endsAt = new Date(startsAt.getTime() + parseInt(formData.duration) * 60000);
+      const endsAt = new Date(
+        startsAt.getTime() + classType.durationMinutes * 60000
+      );
 
       const res = await fetch("/api/admin/sessions", {
         method: "POST",
@@ -56,11 +75,18 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
           startsAt: startsAt.toISOString(),
           endsAt: endsAt.toISOString(),
           capacity: parseInt(formData.capacity),
-          location: formData.location || null,
+          location: formData.location || undefined,
         }),
       });
 
-      if (!res.ok) throw new Error("Failed to create session");
+      if (!res.ok) {
+        const errorData = await res.json();
+        const errorMessage =
+          errorData.error?.message ||
+          errorData.message ||
+          "Failed to create session";
+        throw new Error(errorMessage);
+      }
 
       toast.success("Session created successfully");
       setOpen(false);
@@ -68,13 +94,12 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
         classTypeId: "",
         instructorId: "",
         startsAt: "",
-        duration: "60",
         capacity: "12",
         location: "",
       });
       router.refresh();
-    } catch (error) {
-      toast.error("Failed to create session");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to create session");
     } finally {
       setIsCreating(false);
     }
@@ -113,7 +138,9 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
                 <Label htmlFor="classType">Class Type</Label>
                 <Select
                   value={formData.classTypeId}
-                  onValueChange={(v) => setFormData({ ...formData, classTypeId: v })}
+                  onValueChange={(v) =>
+                    setFormData({ ...formData, classTypeId: v })
+                  }
                 >
                   <SelectTrigger id="classType">
                     <SelectValue placeholder="Select class type" />
@@ -132,7 +159,9 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
                 <Label htmlFor="instructor">Instructor</Label>
                 <Select
                   value={formData.instructorId}
-                  onValueChange={(v) => setFormData({ ...formData, instructorId: v })}
+                  onValueChange={(v) =>
+                    setFormData({ ...formData, instructorId: v })
+                  }
                 >
                   <SelectTrigger id="instructor">
                     <SelectValue placeholder="Select instructor" />
@@ -153,18 +182,18 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
                   id="startsAt"
                   type="datetime-local"
                   value={formData.startsAt}
-                  onChange={(e) => setFormData({ ...formData, startsAt: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, startsAt: e.target.value })
+                  }
                 />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="duration">Duration (minutes)</Label>
-                <Input
-                  id="duration"
-                  type="number"
-                  value={formData.duration}
-                  onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                />
+                {formData.classTypeId && formData.startsAt && (
+                  <p className="text-xs text-sand-600">
+                    Duration:{" "}
+                    {classTypes.find((ct) => ct.id === formData.classTypeId)
+                      ?.durationMinutes || 0}{" "}
+                    minutes
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -173,7 +202,11 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
                   id="capacity"
                   type="number"
                   value={formData.capacity}
-                  onChange={(e) => setFormData({ ...formData, capacity: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, capacity: e.target.value })
+                  }
+                  min="1"
+                  max="50"
                 />
               </div>
 
@@ -182,7 +215,9 @@ export function SessionManagement({ sessions, instructors, classTypes }: Props) 
                 <Input
                   id="location"
                   value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                   placeholder="Studio A"
                 />
               </div>
