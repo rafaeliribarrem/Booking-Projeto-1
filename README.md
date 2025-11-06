@@ -46,18 +46,43 @@ cp .env.example .env
 Edite o arquivo `.env` e configure as seguintes variáveis:
 
 #### Banco de Dados
+
+**Para desenvolvimento local:**
+
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/yoga_booking"
 ```
 
-#### NextAuth
+**Para Vercel/Supabase (IMPORTANTE):**
+Use a connection pooler URL do Supabase (porta 6543, não 5432):
+
 ```env
-# Gere um secret com: openssl rand -base64 32
-NEXTAUTH_SECRET="seu-secret-aqui"
-NEXTAUTH_URL="http://localhost:3000"
+DATABASE_URL="postgresql://user:password@host:6543/db?pgbouncer=true"
 ```
 
+#### NextAuth
+
+NextAuth v5 suporta tanto `AUTH_*` quanto `NEXTAUTH_*` para compatibilidade.
+
+**Para desenvolvimento local:**
+
+```env
+# Gere um secret com: openssl rand -base64 32
+AUTH_SECRET="seu-secret-aqui"
+AUTH_URL="http://localhost:3000"
+```
+
+**Para Vercel:**
+
+```env
+AUTH_SECRET="seu-secret-aqui"
+AUTH_URL="https://seu-app.vercel.app"
+```
+
+**Nota:** Você também pode usar `NEXTAUTH_SECRET` e `NEXTAUTH_URL` para compatibilidade com versões anteriores.
+
 #### Stripe (obrigatório)
+
 1. Crie uma conta em https://stripe.com
 2. Acesse https://dashboard.stripe.com/apikeys
 3. Copie suas chaves de teste
@@ -71,6 +96,7 @@ STRIPE_PRICE_DROPIN="price_..."
 ```
 
 #### Google OAuth (opcional)
+
 1. Acesse https://console.cloud.google.com
 2. Crie um novo projeto
 3. Ative a Google+ API
@@ -83,6 +109,7 @@ GOOGLE_CLIENT_SECRET="seu-client-secret"
 ```
 
 #### Resend (opcional)
+
 1. Crie uma conta em https://resend.com
 2. Gere uma API key
 
@@ -115,6 +142,78 @@ npm start
 ```
 
 Acesse http://localhost:3000
+
+## 🚀 Deploy no Vercel
+
+### Configuração do Vercel
+
+1. **Conecte seu repositório ao Vercel**
+   - Acesse [vercel.com](https://vercel.com)
+   - Importe seu repositório
+   - Configure o projeto
+
+2. **Configure as variáveis de ambiente no Vercel:**
+
+   **Banco de Dados (Supabase):**
+   - Use a **connection pooler URL** do Supabase (porta 6543)
+   - Formato: `postgresql://user:password@host:6543/db?pgbouncer=true`
+   - **NÃO use** a URL direta (porta 5432) - isso causará problemas de conexão
+
+   **NextAuth:**
+
+   ```
+   AUTH_SECRET=seu-secret-gerado
+   AUTH_URL=https://seu-app.vercel.app
+   ```
+
+   Ou use `NEXTAUTH_SECRET` e `NEXTAUTH_URL` para compatibilidade.
+
+   **Google OAuth (se estiver usando):**
+
+   ```
+   GOOGLE_CLIENT_ID=seu-client-id
+   GOOGLE_CLIENT_SECRET=seu-client-secret
+   ```
+
+   - Adicione `https://seu-app.vercel.app/api/auth/callback/google` como redirect URI no Google Cloud Console
+
+   **Stripe (se estiver usando):**
+
+   ```
+   STRIPE_SECRET_KEY=sk_live_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   STRIPE_PRICE_DROPIN=price_...
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+   ```
+
+3. **Build Settings:**
+   - Framework Preset: Next.js
+   - Build Command: `npm run build` (já inclui `prisma generate`)
+   - Install Command: `npm install`
+
+4. **Verificações após o deploy:**
+   - ✅ Autenticação funciona (teste login/logout)
+   - ✅ Conexão com banco de dados funciona
+   - ✅ Google OAuth funciona (se configurado)
+   - ✅ Verifique os logs do Vercel para erros de conexão
+
+### Problemas Comuns
+
+**Erro de conexão com Supabase:**
+
+- Certifique-se de usar a connection pooler URL (porta 6543)
+- Verifique se o `DATABASE_URL` está configurado corretamente no Vercel
+
+**NextAuth não funciona:**
+
+- Verifique se `AUTH_SECRET` está configurado
+- Verifique se `AUTH_URL` aponta para sua URL do Vercel
+- Certifique-se de que `trustHost: true` está configurado (já está no código)
+
+**Erro de build do Prisma:**
+
+- O Prisma já está configurado com os binary targets corretos para Vercel
+- Certifique-se de que `prisma generate` está no build command
 
 ## 📁 Estrutura do Projeto
 

@@ -86,7 +86,8 @@ async function handleCheckout(req: NextRequest) {
     );
 
     // Return mock checkout URL
-    const mockCheckoutUrl = `${process.env.NEXTAUTH_URL}/booking/mock-checkout?bookingId=${booking.id}&paymentId=${paymentResult.data.id}`;
+    const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "";
+    const mockCheckoutUrl = `${baseUrl}/booking/mock-checkout?bookingId=${booking.id}&paymentId=${paymentResult.data.id}`;
 
     return createSuccessResponse(
       {
