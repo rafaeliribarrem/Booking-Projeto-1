@@ -6,6 +6,9 @@ import { SimilarClassesSection } from "@/components/class/SimilarClassesSection"
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 interface Props {
   params: { sessionId: string };
 }
@@ -118,7 +121,7 @@ export default async function ClassDetailPage({ params }: Props) {
               <Button variant="outline" size="lg" asChild>
                 <Link href="/schedule">Back to Schedule</Link>
               </Button>
-              {isFull ? (
+              {isFull ?
                 <Button variant="secondary" size="lg" asChild>
                   <Link
                     href={`/booking/start?sessionId=${session.id}&waitlist=true`}
@@ -126,13 +129,12 @@ export default async function ClassDetailPage({ params }: Props) {
                     Join Waitlist
                   </Link>
                 </Button>
-              ) : (
-                <Button size="lg" asChild>
+              : <Button size="lg" asChild>
                   <Link href={`/booking/start?sessionId=${session.id}`}>
                     Book This Class
                   </Link>
                 </Button>
-              )}
+              }
             </div>
           </div>
         </div>

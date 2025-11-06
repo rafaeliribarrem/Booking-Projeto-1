@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
+
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
 import {
   Card,
   CardContent,

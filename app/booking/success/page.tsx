@@ -3,6 +3,9 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { BookingSuccess } from "@/components/booking/BookingSuccess";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 interface Props {
   searchParams?: { bookingId?: string };
 }

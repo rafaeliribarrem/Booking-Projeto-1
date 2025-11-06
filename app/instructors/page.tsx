@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { InstructorCard } from "@/components/instructors/instructor-card";
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 // Mock data for specialties and experience - in a real app, this could come from the database
 const instructorDetails: Record<
   string,

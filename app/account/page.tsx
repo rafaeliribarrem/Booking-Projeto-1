@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { DashboardHeader } from "@/components/account/DashboardHeader";
 import { AccountPageClient } from "@/components/account/AccountPageClient";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 export default async function AccountPage() {
   const session = await auth();
 

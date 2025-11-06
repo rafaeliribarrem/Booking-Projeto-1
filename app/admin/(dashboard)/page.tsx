@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
+
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
 import { AdminMetricsOverview } from "@/components/admin/AdminMetricsOverview";
 import { AdminQuickActions } from "@/components/admin/AdminQuickActions";
 
@@ -109,11 +112,9 @@ export default async function AdminDashboardPage() {
   );
 
   const capacityUtilization =
-    capacityData.totalCapacity > 0
-      ? Math.round(
-          (capacityData.totalBooked / capacityData.totalCapacity) * 100
-        )
-      : 0;
+    capacityData.totalCapacity > 0 ?
+      Math.round((capacityData.totalBooked / capacityData.totalCapacity) * 100)
+    : 0;
 
   const metrics = {
     todayBookings,
